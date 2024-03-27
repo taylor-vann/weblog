@@ -1,0 +1,10 @@
+{
+  "name": "sw",
+  "main": "./dist/mod.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project ./tsconfig.json",
+    "fmt": "prettier ./src --write",
+    "bundle": "rollup --config ./rollup.config.js"
+  }
+}

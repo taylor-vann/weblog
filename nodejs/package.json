@@ -1,0 +1,16 @@
+{
+  "name": "weblog",
+  "version": "0.1.0",
+  "description": "werewolf weblog",
+  "workspaces": [
+    "sw"
+  ],
+  "author": "taylor vann",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "prettier": "^3.2.5",
+    "rollup": "^4.13.1",
+    "typescript": "^5.4.3"
+  }
+}
