@@ -2,11 +2,19 @@
 
 A personal site.
 
+## Config
+
+JSON build configuration.
+
 ## Weblog-rs
 
 ### Pages
 
-Static pages from function components.
+Function components to build html.
+
+### Generate Pages
+
+Compose html from page function components.
 
 ## www
 
