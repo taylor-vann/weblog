@@ -1,4 +1,4 @@
-use coyote::{Component, tmpl};
+use coyote::{tmpl, Component};
 
 use crate::document::document_frame;
 

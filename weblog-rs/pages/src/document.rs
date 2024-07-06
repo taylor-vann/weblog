@@ -1,4 +1,4 @@
-use coyote::{Component, tmpl};
+use coyote::{tmpl, Component};
 
 pub fn document_frame(
     metas: Component,
@@ -6,7 +6,8 @@ pub fn document_frame(
     javascript: Component,
     content: Component,
 ) -> Component {
-    tmpl("
+    tmpl(
+        "
         <!DOCTYPE html>
         <html lang=\"en-US\">
             <head>
@@ -18,28 +19,17 @@ pub fn document_frame(
                 ${}
             </body>
         </html>",
-        [
-            styles,
-            javascript,
-            content,
-        ]
+        [styles, javascript, content],
     )
 }
 
-pub fn template(
-    attrs: Component,
-    shadow_dom: Component,
-    light_dom: Component, 
-) -> Component {
-    tmpl("
+pub fn template(attrs: Component, shadow_dom: Component, light_dom: Component) -> Component {
+    tmpl(
+        "
         <template {}>
             {}
             {}
         </template>",
-        [
-            attrs,
-            shadow_dom,
-            light_dom,
-        ]
+        [attrs, shadow_dom, light_dom],
     )
 }
