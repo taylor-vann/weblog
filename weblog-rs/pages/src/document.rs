@@ -1,6 +1,7 @@
 use coyote::{tmpl, Component};
 
 pub fn document_frame(
+    language: Component,
     metas: Component,
     styles: Component,
     javascript: Component,
@@ -9,17 +10,17 @@ pub fn document_frame(
     tmpl(
         "
         <!DOCTYPE html>
-        <html lang=\"en-US\">
+        <html {}>
             <head>
-                ${}
-                ${}
-                ${}
+                {}
+                {}
+                {}
             </head>
             <body>
-                ${}
+                {}
             </body>
         </html>",
-        [styles, javascript, content],
+        [language, metas, styles, javascript, content],
     )
 }
 
