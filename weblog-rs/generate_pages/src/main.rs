@@ -12,11 +12,13 @@ use coyote_html::{pretty_html, Html, Sieve};
 
 use pages;
 
-async fn create_page(name: &str) -> Component {
-    match name {
+async fn create_page(name: &str) -> Option<Component> {
+    let page = match name {
         "home" => pages::home::page(),
-        _ => pages::home::page(),
-    }
+        _ => return None,
+    };
+
+    Some(page)
 }
 
 async fn write_page(target_filename: &PathBuf, document: String) -> Result<(), std::io::Error> {
@@ -47,7 +49,11 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
     let pretty_sieve = Sieve::new();
     for (name, target_filename) in &config.pages {
         let path = curr_dir.join(target_filename);
-        let page = create_page(name).await;
+        let page = match create_page(name).await {
+            Some(p) => p,
+            _ => continue,
+        };
+
         let document = html.build(&page);
         let pretty_document = pretty_html(&pretty_sieve, &document);
 
