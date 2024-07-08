@@ -18,7 +18,7 @@ pub async fn from_filepath(filepath: &PathBuf) -> Result<Config, String> {
 
     let parent_dir = match config_pathbuff.parent() {
         Some(directory) => directory,
-        _ => return Err("no parent directory!, crazy!".to_string())
+        _ => return Err("no parent directory!, crazy!".to_string()),
     };
 
     println!("{:?}", parent_dir);

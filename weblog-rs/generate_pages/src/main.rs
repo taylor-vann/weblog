@@ -1,8 +1,8 @@
 use config;
+use futures::future::try_join_all;
 use std::env;
 use std::path::PathBuf;
 use tokio::fs;
-use futures::future::try_join_all;
 
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
