@@ -1,6 +1,5 @@
 {
-    "target": "./www",
     "pages": [
-        ["home", "./www/index.html"]
+        ["home", "www/index.html"]
     ]
 }
