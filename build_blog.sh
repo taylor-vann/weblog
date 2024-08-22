@@ -1,0 +1,1 @@
+cargo run --manifest-path ./weblog-rs/Cargo.toml --package generate_pages ./config.json

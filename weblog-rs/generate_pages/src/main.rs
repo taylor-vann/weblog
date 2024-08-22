@@ -97,5 +97,6 @@ async fn main() {
     };
 
     let results = generate_pages(&config).await;
+    
     println!("{:?}", &results);
 }

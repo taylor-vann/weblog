@@ -1,12 +1,20 @@
 use coyote::Component::None;
 use coyote::{attr_val, tmpl, Component};
 
-use crate::document::document_frame;
+use components::document::{document_frame, lang_en, metas};
 
-// metas can be computed
-// no scripts yet?
+pub fn page() -> Component {
+    document_frame(
+        lang_en(),
+        metas(),
+        None,   // styles
+        None,   // scripts
+        content(),
+    )
+}
 
-fn body() -> Component {
+
+fn content() -> Component {
     tmpl(
         "
         <header></header>
@@ -16,15 +24,5 @@ fn body() -> Component {
         <footer></footer>
         ",
         [],
-    )
-}
-
-pub fn page() -> Component {
-    document_frame(
-        attr_val("lang", "en-us"),
-        None,   // meta
-        None,   // styles
-        None,   // scripts
-        body(), // body
     )
 }
