@@ -8,7 +8,7 @@ use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
 
 use coyote::Component;
-use coyote_html::{pretty_html, Html, Sieve};
+use coyote_html::{pretty_html, Html, ServerRules};
 
 use pages;
 
@@ -41,12 +41,11 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
         Err(e) => return Err(e),
     };
 
-    let sieve = Sieve::new();
+    let rules = ServerRules::new();
     let mut html = Html::new();
 
     // batch process instead of writing each file
     // let mut futures = Vec::new();
-    let pretty_sieve = Sieve::new();
     for (name, target_filename) in &config.pages {
         let path = curr_dir.join(target_filename);
         let page = match create_page(name).await {
@@ -54,8 +53,7 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
             _ => continue,
         };
 
-        let document = html.build(&page);
-        let pretty_document = pretty_html(&pretty_sieve, &document);
+        let document = html.build(&rules, &page);
 
         let parent_path = match path.parent() {
             Some(p) => p,
@@ -71,7 +69,7 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
             Err(e) => return Err(e),
         };
 
-        let result = match file.write_all(pretty_document.as_bytes()).await {
+        let result = match file.write_all(document.as_bytes()).await {
             Ok(file) => file,
             Err(e) => return Err(e),
         };
