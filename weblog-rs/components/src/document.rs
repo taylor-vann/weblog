@@ -24,17 +24,6 @@ pub fn document_frame(
     )
 }
 
-pub fn template(attrs: Component, shadow_dom: Component, light_dom: Component) -> Component {
-    tmpl(
-        "
-        <template {}>
-            {}
-            {}
-        </template>",
-        [attrs, shadow_dom, light_dom],
-    )
-}
-
 pub fn lang_en() -> Component {
     attr_val("lang", "en-us")
 }

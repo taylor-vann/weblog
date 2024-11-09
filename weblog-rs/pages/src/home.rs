@@ -7,12 +7,11 @@ pub fn page() -> Component {
     document_frame(
         lang_en(),
         metas(),
-        None,   // styles
-        None,   // scripts
+        None, // styles
+        None, // scripts
         content(),
     )
 }
-
 
 fn content() -> Component {
     tmpl(
