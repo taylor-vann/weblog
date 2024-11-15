@@ -1,5 +1,6 @@
 {
     "pages": [
         ["home", "www/index.html"]
-    ]
+    ],
+    "styles": "www/styles"
 }
