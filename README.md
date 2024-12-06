@@ -16,10 +16,6 @@ Function components to build html documents.
 
 Compose html documents from pages.
 
-## www
-
-Target directory for all generated html, scripts, and styles.
-
 # License
 
 BSD 3-Clause License

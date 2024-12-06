@@ -21,6 +21,8 @@ fn body() -> Component {
         <header></header>
         <main>
             <p>hai :3</p>
+            <p>I'm Taylor Vann</p>
+            <p>Yet another software engineer.</p>
         </main>
         <footer></footer>
         ",
