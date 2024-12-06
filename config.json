@@ -2,5 +2,6 @@
     "pages": [
         ["home", "www/index.html"]
     ],
-    "styles": "www/styles"
+    "styles": "www/styles",
+    "scripts": "www/scripts"
 }

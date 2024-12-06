@@ -12,15 +12,6 @@ JSON build configuration.
 
 Function components to build html documents.
 
-- home
-- cv / resume
-- contact
-- blog
-- w-lfpup
-- the minimalist kitchen
-- herebythere
-- trilsby
-
 ### Generate Pages
 
 Compose html documents from pages.

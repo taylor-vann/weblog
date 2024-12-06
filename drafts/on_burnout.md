@@ -1,5 +1,10 @@
 # On Burnout and Doubt
 
+three stagegs of development death
+- all new features all the time
+- fixing broken issues, finding core problems
+- ignoring solutions that change logic flow
+
 I almost quit Google before I was let go in 2023.
 : a behemoth moneny pit named Material and (the unfortunately named) Lit.
 
@@ -13,9 +18,9 @@ Your team spent years solidifying certain APIs. Any change is now a breaking cha
 
 If this sounds reductive, it's supposed to be. Because that is a bullshit way to engineer anything.
 
-So you attempt to solve a bug but you find it's at the core of an ancient part of your code base. Any attempt to fundamentally change or remove code requires extensive testing. And then you gotta remove tests that tested the previous implementation. So now you're removing code and tests and convincing serveral other coworkers that removing 1000 lines of code and dozens of tests. Code that "worked just fine as long as the client didn't fuck up". And from a managers perspective: 5 years and half a dozen engineers costs around 3million fucking dollars. And now you're talking about changing removing a couple hundred thousand dollars worth of work because yours is slightly better but does the same thing with less code and less bugs? No, you're manager says, fix the fucking bugs. 
+So you attempt to solve a bug but you find it's at the core of an ancient part of your code base. Any attempt to fundamentally change or remove code requires extensive testing. And then you gotta remove tests that tested the previous implementation. So now you're removing code and tests and convincing serveral other coworkers that removing 1000 lines of code and dozens of tests is a good thingg. Code that "worked just fine as long as the client didn't fuck up". And from a managers perspective: 5 years and half a dozen engineers costs around 3million fucking dollars. And now you're talking about changing removing a couple hundred thousand dollars worth of work because yours is slightly better or has better names or clearer logic or does the same thing with less code and less bugs? No, you're manager says, fix the fucking bugs. 
 
-What you're really doing is ignoring sunk costs. You
+What you're really doing is ignoring sunk costs.
 
 
 The result is you go into work, creating a product that you wouldn't even use.
