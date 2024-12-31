@@ -8,6 +8,7 @@ use tokio::io::AsyncWriteExt;
 
 use coyote::Component;
 use coyote_html::{pretty_html, Html, ServerRules};
+use walk_directory::DirCopy;
 
 use pages;
 

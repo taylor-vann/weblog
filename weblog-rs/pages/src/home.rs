@@ -2,7 +2,7 @@ use coyote::{attr_val, tmpl, Component};
 
 use components::document::{document_frame, lang_en, metas};
 
-const title: &str = "blog - home";
+const title: &str = "taylorvann - home";
 const description: &str = "Software engineer, hobbyist, blogger.";
 
 pub fn page() -> Component {
