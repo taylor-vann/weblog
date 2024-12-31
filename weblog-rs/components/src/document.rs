@@ -4,7 +4,7 @@ pub fn document_frame(
     language: Component,
     metas: Component,
     styles: Component,
-    javascript: Component,
+    scripts: Component,
     content: Component,
 ) -> Component {
     tmpl(
@@ -20,7 +20,7 @@ pub fn document_frame(
                 {}
             </body>
         </html>",
-        [language, metas, styles, javascript, content],
+        [language, metas, styles, scripts, content],
     )
 }
 

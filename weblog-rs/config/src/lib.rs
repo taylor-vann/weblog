@@ -11,22 +11,14 @@ pub struct Config {
     pub target_dir: PathBuf,
 }
 
-pub async fn from_filepath(file_path: &PathBuf) -> Result<Config, String> {
-    // get position relative to working directory
-    // let (curr_dir, config_pathbuff) = match std::env::current_dir() {
-    //     Ok(pb) => (pb.clone(), pb.join(file_path)),
-    //     Err(e) => return Err(e.to_string()),
-    // };
-
-    // if is not file
-
-    if !file_path.is_file() {
+pub async fn from_filepath(target_filepath: &PathBuf) -> Result<Config, String> {
+    if !target_filepath.is_file() {
         return Err("config -- args path is not a file".to_string());
     }
 
-    let config_pathbuf = match path::absolute(file_path) {
+    let config_pathbuf = match path::absolute(target_filepath) {
         Ok(pb) => pb,
-        _ => return Err("config -- could not create an absolute path from args path".to_string())
+        _ => return Err("config -- could not create an absolute path from args path".to_string()),
     };
 
     // build json conifg
@@ -46,11 +38,11 @@ pub async fn from_filepath(file_path: &PathBuf) -> Result<Config, String> {
 
     config.origin_dir = parent_dir.join(config.origin_dir);
     if !config.origin_dir.is_dir() {
-        return Err("config.origin_path is not a directory.".to_string())
+        return Err("config.origin_dir is not a directory.".to_string());
     }
     config.target_dir = parent_dir.join(config.target_dir);
     if !config.target_dir.is_dir() {
-        return Err("config.target_path is not a directory.".to_string())
+        return Err("config.target_dir is not a directory.".to_string());
     }
 
     Ok(config)
