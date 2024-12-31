@@ -12,6 +12,9 @@ use coyote_html::{pretty_html, Html, ServerRules};
 
 use pages;
 
+// list of pages and constants
+// [("name", "relative/dest/path")
+
 async fn create_page(name: &str) -> Option<Component> {
     let page = match name {
         "home" => pages::home::page(),

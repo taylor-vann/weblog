@@ -8,6 +8,13 @@ A personal site.
 
 JSON build configuration.
 
+```JSON
+{
+	"origin_dir": "directory-with-prebuilt-assets/",
+	"target_dir": "directory-to-output-generated-files/"
+}
+```
+
 ### Pages
 
 Function components to build html documents.
