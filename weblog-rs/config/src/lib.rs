@@ -12,13 +12,15 @@ pub struct Config {
     pub target_dir: PathBuf,
 }
 
-pub async fn from_filepath(target_filepath: &PathBuf) -> Result<Config, String> {
+pub async fn from_filepath(target_path: &PathBuf) -> Result<Config, String> {
     // get working directory(
 
-    let cwd = match env::current_dir() {
-        Ok(p) => p,
+    let target_filepath = match env::current_dir() {
+        Ok(p) => p.join(target_path),
         _ => return Err("there is no current working directory! interesting!".to_string()),
     };
+
+    println!("{:?}", &target_filepath);
 
     if !target_filepath.is_file() {
         return Err("config -- args path is not a file".to_string());
@@ -32,7 +34,7 @@ pub async fn from_filepath(target_filepath: &PathBuf) -> Result<Config, String> 
     // build json conifg
     let json_as_str = match fs::read_to_string(&config_pathbuf).await {
         Ok(r) => r,
-        Err(e) => return Err(e.to_string()),
+        Err(e) => return Err("failed to read config from json file".to_string()),
     };
     let mut config: Config = match serde_json::from_str(&json_as_str) {
         Ok(j) => j,
@@ -45,13 +47,7 @@ pub async fn from_filepath(target_filepath: &PathBuf) -> Result<Config, String> 
     };
 
     config.origin_dir = parent_dir.join(config.origin_dir);
-    if !config.origin_dir.is_dir() {
-        return Err("config.origin_dir is not a directory.".to_string());
-    }
     config.target_dir = parent_dir.join(config.target_dir);
-    if !config.target_dir.is_dir() {
-        return Err("config.target_dir is not a directory.".to_string());
-    }
 
     Ok(config)
 }
