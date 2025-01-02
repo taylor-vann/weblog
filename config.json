@@ -1,7 +1,4 @@
 {
-    "pages": [
-        ["home", "www/index.html"]
-    ],
-    "styles": "www/styles",
-    "scripts": "www/scripts"
+    "origin_dir": "www/",
+    "target_dir": "www-test/"
 }

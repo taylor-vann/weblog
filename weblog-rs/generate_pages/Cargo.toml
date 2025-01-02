@@ -12,3 +12,4 @@ coyote_html = { workspace = true }
 config = { path = "../config" }
 futures = { workspace = true }
 pages = { path = "../pages" }
+walk_directory = { workspace = true }
