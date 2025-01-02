@@ -10,7 +10,7 @@ use walk_directory::DirCopy;
 use config;
 use pages;
 
-const page_targets: [&'static (&str, &str); 1] = [&("home", "index.html")];
+const PAGE_FILEPATHS: [&'static (&str, &str); 1] = [&("home", "index.html")];
 
 async fn create_page(name: &str) -> Option<Component> {
     let page = match name {
@@ -21,7 +21,7 @@ async fn create_page(name: &str) -> Option<Component> {
     Some(page)
 }
 
-async fn write_page(target_filename: &PathBuf, document: String) -> Result<(), std::io::Error> {
+async fn write_page(target_filename: &PathBuf, document: &str) -> Result<(), std::io::Error> {
     let mut file = match File::create(target_filename).await {
         Ok(file) => file,
         Err(e) => return Err(e),
@@ -34,7 +34,7 @@ async fn write_page(target_filename: &PathBuf, document: String) -> Result<(), s
 }
 
 async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
-    // copy original directory
+    // copy origin directory
     if let Ok(mut dir_copy) = DirCopy::try_from_path(&config.origin_dir, &config.target_dir).await {
         if let Some((source_path, target_path)) = dir_copy.next_entry().await {
             if let Err(e) = fs::copy(source_path, target_path).await {
@@ -43,11 +43,11 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
         }
     };
 
-    // iterate through pagesresults
+    // iterate through pages
     let rules = ServerRules::new();
     let mut html = Html::new();
 
-    for (name, path_str) in page_targets {
+    for (name, path_str) in PAGE_FILEPATHS {
         let page = match create_page(name).await {
             Some(p) => p,
             _ => continue,
@@ -56,14 +56,9 @@ async fn generate_pages(config: &config::Config) -> Result<(), std::io::Error> {
         let document = html.build(&rules, &page);
 
         let page_path = config.target_dir.join(path_str);
-        let mut file = match File::create(&page_path).await {
-            Ok(file) => file,
-            Err(e) => return Err(e),
-        };
-
-        if let Err(e) = file.write_all(document.as_bytes()).await {
+        if let Err(e) = write_page(&page_path, &document).await {
             return Err(e);
-        };
+        }
     }
 
     Ok(())

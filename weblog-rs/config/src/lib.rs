@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json;
 use tokio::fs;
 
+use std::env;
 use std::path;
 use std::path::PathBuf;
 
@@ -12,6 +13,13 @@ pub struct Config {
 }
 
 pub async fn from_filepath(target_filepath: &PathBuf) -> Result<Config, String> {
+    // get working directory(
+
+    let cwd = match env::current_dir() {
+        Ok(p) => p,
+        _ => return Err("there is no current working directory! interesting!".to_string()),
+    };
+
     if !target_filepath.is_file() {
         return Err("config -- args path is not a file".to_string());
     }
