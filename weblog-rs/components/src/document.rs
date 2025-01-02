@@ -1,4 +1,4 @@
-use coyote::{attr_val, tmpl, unescaped_text, Component};
+use coyote::{attr_val, tmpl, Component};
 
 pub fn document_frame(
     language: Component,

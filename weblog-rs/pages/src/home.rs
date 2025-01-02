@@ -1,14 +1,14 @@
-use coyote::{attr_val, tmpl, Component};
+use coyote::{tmpl, Component};
 
 use components::document::{document_frame, lang_en, metas};
 
-const title: &str = "taylorvann - home";
-const description: &str = "Software engineer, hobbyist, blogger.";
+const TITLE: &str = "taylorvann - home";
+const DESCRIPTION: &str = "Software engineer, hobbyist, blogger.";
 
 pub fn page() -> Component {
     document_frame(
         lang_en(),
-        metas(title, description),
+        metas(TITLE, DESCRIPTION),
         Component::None, // styles
         Component::None, // scripts
         body(),
@@ -20,7 +20,7 @@ fn body() -> Component {
         "
         <header></header>
         <main>
-            <p>hai :3</p>
+            <p>Arrroooo!!</p>
         </main>
         <footer></footer>
         ",
