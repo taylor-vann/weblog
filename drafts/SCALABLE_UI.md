@@ -31,7 +31,7 @@ By utilizing CSS only changes and interacting with the least amount of JS, the s
 
 If youre loading external components from cross-origin urls in production client level I'm going to ask you to quit and go back to your economics degree from UCSB.
 
-4) SCAlABILITY
+4) SCALABILITY
 
 Most developers wouldnt associate "scalability" with component sets.
 
@@ -56,9 +56,9 @@ But me, the engineer hired years later to clean up your mess?
 
 I have to justify why it took 6 months to update one line of css that broke every screenshot in every fucking company project.
 
-And I can't give realistic answers to manager like: the previous engineers took you for a ride and created the integration equivalent of a "wall of fire".
+And I can't give realistic answers to manager like: the previous engineers took you for a ride and sold you on the integration equivalent of a "wall of fire".
 
-And then my manager goes, BTW here's your bonus: "middle finger emoji lolol".
+And then my manager goes, BTW here's YOUR bonus: "middle finger emoji lolol".
 
 
 ## Right skewed component usage
@@ -132,9 +132,11 @@ Experiments take up to 1month to 6months to complete.
 SO DON"T SIT HERE AND FUCKING TELL ME UI COMPONENTS BELONG IN A GAWD DAMN MONOLITH
 
 It's an engineering smell.
-It smells green. Like that engineer hasn't had their tail whipped by the fall of the frontend hubris of an underqualified project lead.
+It smells green. Like that engineer hasn't had their tail whipped by their frontend hubris comes crashing down.
 
 It tells me you've never encountered this problem and you have no fucking idea how to handle it.
+
+You're an engineer that hasn't had their ass handed to them yet. Even worse if you're a team lead and you haven't had your ass handed to you yet. You sure your okay with risking all your teammates career over your stupid fucking button?
 
 ## The dirty secret about monoliths, monolith? more like monomyth
 

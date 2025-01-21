@@ -90,6 +90,8 @@ async fn create_target_dir(config: &config::Config) -> Result<(), String> {
     Ok(())
 }
 
+// zip every file in target Dir (unless it is already a .br file or otherwise)
+
 #[tokio::main]
 async fn main() {
     // create config
