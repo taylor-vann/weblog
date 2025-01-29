@@ -1,7 +1,7 @@
 {
 	"name": "weblog",
 	"scripts": {
-		"build_weblog_scripts": "tsc --project ../www"
+		"build_weblog_scripts": "tsc --project ../www/tsconfig.json"
 	},
 	"devDependencies": {
 		"typescript": "^5.7.3"
