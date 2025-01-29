@@ -1,0 +1,9 @@
+{
+	"name": "weblog",
+	"scripts": {
+		"build_weblog_scripts": "tsc --project ../www"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.3"
+	}
+}

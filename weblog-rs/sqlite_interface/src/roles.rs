@@ -1,0 +1,6 @@
+"CREATE TABLE IF NOT EXISTS roles (
+	id BIGINT PRIMARY KEY,
+	kind TEXT NOT NULL UNIQUE,
+	belongs_to BIGINT NOT NULL,
+	deleted_at BIGINT,
+);"

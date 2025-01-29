@@ -1,4 +1,9 @@
 {
-    "origin_dir": "www/",
-    "target_dir": "www-test/"
+	"sqlite_db_auth": "./auth.sqlite",
+	"origin_dir": "./www/",
+	"pages": [
+		["home", "index.html"],
+		["cv", "cv.html"],
+		["about", "about.html"]
+	]
 }

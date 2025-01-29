@@ -23,4 +23,9 @@ Cargo.lock
 
 # WEBLOG
 
-www-test/
+fallback_user.json
+
+*.js
+*.d.ts
+
+node_modules/
