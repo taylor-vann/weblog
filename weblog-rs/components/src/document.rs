@@ -28,6 +28,24 @@ pub fn lang_en() -> Component {
     attr_val("lang", "en-us")
 }
 
+pub fn favicon() -> Component {
+    tmpl(
+        "
+        <link rel=icon href=/favicon.svg>
+        <link rel=mask-icon href=/mask-icon.svg color=#000000>
+        <link rel=apple-touch-icon href=/apple-touch-icon.png>
+        "
+    )
+}
+
+pub fn build_links() -> Component {
+    tmpl(
+        "
+        <link rel=manifest href=/manifest.webmanifest>
+        "
+    )
+}
+
 pub fn metas(title: &str, description: &str) -> Component {
     tmpl(
         "

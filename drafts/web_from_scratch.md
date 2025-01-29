@@ -30,8 +30,8 @@ The physical nature to entertainment was hidebound. Big screens? movie theaters.
 
 But we instantly ignore a foundational skuemorph, the representation of an infinite canvas through limited number of physical pixels
 
+And that ignorance is what we mistake for a magic looking glass.
 And trade that ignorance for a magic looking glass.
-
 
 
 And sending html to a computer doesn't mean anything.
@@ -42,3 +42,6 @@ It fucking sucks scraping pdfs and html for content.
 
 Sending html to a browser however implies there is a person at the other end.
 
+And so I think HTML succeeded because it is fundamentally concerned with sending the _capcity_ for an interface.
+
+And I don't think the tooling for the last 15 years have worked with the current of HTML and HTTP itself. 

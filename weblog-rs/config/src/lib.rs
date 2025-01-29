@@ -9,7 +9,8 @@ use std::path::PathBuf;
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Config {
     pub origin_dir: PathBuf,
-    pub target_dir: PathBuf,
+    pub sqlite_db_auth: PathBuf,
+    pub pages: Vec<(String, PathBuf)>,
 }
 
 pub async fn from_filepath(target_path: &PathBuf) -> Result<Config, String> {
@@ -44,7 +45,6 @@ pub async fn from_filepath(target_path: &PathBuf) -> Result<Config, String> {
     };
 
     config.origin_dir = parent_dir.join(config.origin_dir);
-    config.target_dir = parent_dir.join(config.target_dir);
 
     Ok(config)
 }

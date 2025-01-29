@@ -1,4 +1,4 @@
-# Domain Knowledge
+# How to share domain knowledge quickly
 
 Teams
 
