@@ -1,5 +1,6 @@
 {
-	"sqlite_db_auth": "./auth.sqlite",
+	"sqlite_db_auth": "./weblog_auth.sqlite",
+	"sqlite_db": "./weblog.sqlite",
 	"origin_dir": "./www/",
 	"pages": [
 		["home", "index.html"],

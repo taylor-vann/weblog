@@ -1,4 +1,14 @@
+pub struct Person {}
+
 pub struct People {}
+
+impl People {
+    // create
+    // read
+    // read by email
+    // update (email, password)
+    // delete
+}
 
 // "CREATE TABLE IF NOT EXISTS people (
 // 	id INTEGER PRIMARY KEY,

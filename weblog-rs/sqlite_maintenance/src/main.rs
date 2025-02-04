@@ -13,6 +13,7 @@ use std::env;
 use std::path::PathBuf;
 
 use config;
+use rusqlite::{Connection, Result};
 
 #[tokio::main]
 async fn main() -> Result<(), String> {
@@ -24,7 +25,7 @@ async fn main() -> Result<(), String> {
 
     match action.as_str() {
         "setup_dbs" => setup_dbs().await,
-        _ => Err("no action function matched arg[0]".to_string()),
+        _ => return Err("no action function matched arg[0]".to_string()),
     }
 }
 

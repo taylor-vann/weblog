@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 config = { path = "../config" }
 tokio = { workspace = true }
+rusqlite = { workspace = true }
