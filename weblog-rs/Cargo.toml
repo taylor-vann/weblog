@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = [ "components", "config", "generate_pages","pages"]
+members = [ "config", "sqlite_interface", "sqlite_maintenance" ]
 
 [workspace.dependencies]
 coyote = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
@@ -8,7 +8,7 @@ coyote_html = { git = "https://github.com/wolfpup-software/coyote-rs", version =
 futures = "0.3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-snowprints = { git = https://github.com/taylor-vann/snowprints, version = "0.1" }
+snowprints = { git = "https://github.com/taylor-vann/snowprints", version = "0.1" }
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7"
 walk_directory = { git = "https://github.com/wolfpup-software/walk_directory-rs", version = "0.1" }

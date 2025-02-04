@@ -1,28 +1,30 @@
-"
-CREATE TABLE IF NOT EXISTS roles (
-	id BIGINT PRIMARY KEY,
-	kind TEXT NOT NULL UNIQUE,
-	belongs_to BIGINT NOT NULL,
-	deleted_at BIGINT,
-);
-"
+pub struct Roles {}
 
-// CREATE
-"
-INSERT INTO roles
-	(id, kind)
-VALUES
-	(?1, ?2);
-"
+// "
+// CREATE TABLE IF NOT EXISTS roles (
+// 	id BIGINT PRIMARY KEY,
+// 	name TEXT NOT NULL UNIQUE,
+// 	belongs_to BIGINT NOT NULL,
+// 	deleted_at BIGINT,
+// );
+// "
 
-// READ by kind
-"
-SELECT * FROM roles
-WHERE kind = ?1;
-"
+// // CREATE
+// "
+// INSERT INTO roles
+// 	(id, name)
+// VALUES
+// 	(?1, ?2);
+// "
 
-// READ by id
-"
-SELECT * FROM roles
-WHERE id = ?1;
-"
+// // READ by name
+// "
+// SELECT * FROM roles
+// WHERE name = ?1;
+// "
+
+// // READ by id
+// "
+// SELECT * FROM roles
+// WHERE id = ?1;
+// "
