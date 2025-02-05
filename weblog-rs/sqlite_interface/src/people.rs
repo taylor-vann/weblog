@@ -1,13 +1,43 @@
+use rusqlite::{Connection, Result};
+use std::path::PathBuf;
+
 pub struct Person {}
 
 pub struct People {}
 
 impl People {
+    pub fn new() -> People {
+        People {}
+    }
     // create
     // read
     // read by email
     // update (email, password)
     // delete
+}
+
+// keep table creation out of regular api?
+pub fn create_table(path: &PathBuf) {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return,
+    };
+
+    let results = conn.execute(
+        "CREATE TABLE IF NOT EXISTS people (
+			id INTEGER PRIMARY KEY,
+			email TEXT NOT NULL UNIQUE,
+			screen_name TEXT NOT NULL UNIQUE,
+			password_hash_params TEXT NOT NULL,
+			updated_at INTEGER,
+			deleted_at INTEGER
+		)",
+        (), // empty list of parameters.
+    );
+
+    if let Err(e) = results {
+        println!("error creating table")
+    }
 }
 
 // "CREATE TABLE IF NOT EXISTS people (

@@ -1,15 +1,42 @@
+use rusqlite::{Connection, Result};
+use std::path::PathBuf;
+
 pub struct Session {}
 
-// "
-// CREATE TABLE IF NOT EXISTS sessions (
-// 	id INTEGER PRIMARY KEY,
-// 	session INTEGER NOT NULL,
-// 	session_length_ms INTEGER NOT NULL,
-// 	belongs_to INTEGER NOT NULL,
-// 	updated_at INTEGER,
-// 	deleted_at INTEGER
-// );
-// "
+pub struct Sessions {}
+
+impl Sessions {
+    pub fn new() -> Sessions {
+        Sessions {}
+    }
+    // create
+    // read
+    // read by email
+    // update (email, password)
+    // delete
+}
+
+pub fn create_table(path: &PathBuf) {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return,
+    };
+
+    let results = conn.execute(
+        "CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY,
+            session INTEGER NOT NULL,
+            session_length_ms INTEGER NOT NULL,
+            belongs_to INTEGER,
+            deleted_at INTEGER
+        )",
+        (), // empty list of parameters.
+    );
+
+    if let Err(e) = results {
+        println!("error creating sessions table")
+    }
+}
 
 // // CREATE
 // "
