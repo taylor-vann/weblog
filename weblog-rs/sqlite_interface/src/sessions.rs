@@ -16,10 +16,10 @@ impl Sessions {
     // delete
 }
 
-pub fn create_table(path: &PathBuf) {
+pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
-        Err(e) => return,
+        Err(e) => return Err("falled to connect to sqlite db (session)".to_string()),
     };
 
     let results = conn.execute(
@@ -34,8 +34,10 @@ pub fn create_table(path: &PathBuf) {
     );
 
     if let Err(e) = results {
-        println!("error creating sessions table")
+        return Err("sessions: \n".to_string() + &e.to_string());
     }
+
+    Ok(())
 }
 
 // // CREATE

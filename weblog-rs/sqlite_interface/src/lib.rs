@@ -1,9 +1,9 @@
-mod ip_rate_limits;
-mod people;
-mod roles;
-mod roles_to_people;
-mod session_rate_limits;
-mod sessions;
+pub mod ip_rate_limits;
+pub mod people;
+pub mod roles;
+pub mod roles_to_people;
+pub mod session_rate_limits;
+pub mod sessions;
 
 use crate::ip_rate_limits::IpRateLimits;
 use crate::people::People;
@@ -41,3 +41,17 @@ impl DomainDb {
         DomainDb {}
     }
 }
+
+// create person
+// create roles for person
+
+// rate limit ip (rate limit guest session creation)
+
+// create guest session
+// create user session
+
+// rate limit session
+
+// is guest session?
+// get user_id from sesion
+// user has role by title

@@ -21,6 +21,8 @@ impl Config {
             _ => return Err("there is no current working directory! interesting!".to_string()),
         };
 
+        println!("{:?}", target_filepath);
+
         if !target_filepath.is_file() {
             return Err("config -- args path is not a file".to_string());
         }
@@ -48,6 +50,7 @@ impl Config {
         };
 
         config.origin_dir = parent_dir.join(config.origin_dir);
+        config.sqlite_db_auth = parent_dir.join(config.sqlite_db_auth);
 
         Ok(config)
     }

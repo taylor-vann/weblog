@@ -9,3 +9,4 @@ edition = "2021"
 config = { path = "../config" }
 tokio = { workspace = true }
 rusqlite = { workspace = true }
+sqlite_interface = { path = "../sqlite_interface" }

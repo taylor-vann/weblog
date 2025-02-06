@@ -16,26 +16,28 @@ impl RolesToPeople {
     // delete
 }
 
-pub fn create_table(path: &PathBuf) {
+pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
-        Err(e) => return,
+        Err(e) => return Err("falled to connect to sqlite db (roles_to_people)".to_string()),
     };
 
     let results = conn.execute(
         "CREATE TABLE IF NOT EXISTS roles_to_people (
-            id BIGINT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             role_id TEXT NOT NULL,
-            people_id BIGINT NOT NULL,
-            belongs_to BIGINT NOT NULL,
-            deleted_at BIGINT,
+            people_id INTEGER NOT NULL,
+            belongs_to INTEGER NOT NULL,
+            deleted_at INTEGER
         )",
         (), // empty list of parameters.
     );
 
     if let Err(e) = results {
-        println!("error creating roles_to_people table")
+        return Err("roles_to_people: \n".to_string() + &e.to_string());
     }
+
+    Ok(())
 }
 
 // // CREATE

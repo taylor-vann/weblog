@@ -16,15 +16,15 @@ impl SessionRateLimits {
     // delete
 }
 
-pub fn create_table(path: &PathBuf) {
+pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
-        Err(e) => return,
+        Err(e) => return Err("falled to connect to sqlite db (session_rate_limits)".to_string()),
     };
 
     let results = conn.execute(
         "CREATE TABLE IF NOT EXISTS session_rate_limits (
-            session_id INTEGER NOT NULL PRIMARY KEY,
+            session_id INTEGER NOT NULL PRIMARY KEY UNIQUE,
             bucket_prev INTEGER NOT NULL,
             bucket_curr INTEGER NOT NULL,
             updated_at INTEGER,
@@ -34,8 +34,10 @@ pub fn create_table(path: &PathBuf) {
     );
 
     if let Err(e) = results {
-        println!("error creating roles table")
+        return Err("session_rate_limits: \n".to_string() + &e.to_string());
     }
+
+    Ok(())
 }
 
 // // number of times an ip can create a session
