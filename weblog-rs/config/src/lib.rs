@@ -59,6 +59,7 @@ impl Config {
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct FallbackUser {
     pub email: String,
+    pub screen_name: String,
     pub password: String,
     pub roles: Vec<String>,
 }

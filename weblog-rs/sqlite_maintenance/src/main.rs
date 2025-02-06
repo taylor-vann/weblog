@@ -23,12 +23,12 @@ async fn main() -> Result<(), String> {
     // get args 0
     let action = match env::args().nth(1) {
         Some(actn) => actn,
-        _ => return Err("no action found at arg[0]".to_string()),
+        _ => return Err("no action found at arg[1]".to_string()),
     };
 
     let config_path_buf = match env::args().nth(2) {
         Some(fbjs) => PathBuf::from(fbjs),
-        _ => return Err("arg[1] config path not included.".to_string()),
+        _ => return Err("arg[2] config path not included.".to_string()),
     };
     println!("{:?}", config_path_buf);
 
@@ -39,7 +39,7 @@ async fn main() -> Result<(), String> {
 
     let results = match action.as_str() {
         "setup_dbs" => setup_dbs(&config).await,
-        "create_fallback_user" => create_fallback_user(&config).await,
+        "create_fallback_account" => create_fallback_account(&config).await,
         _ => return Err("no action function matched arg[0]".to_string()),
     };
 
@@ -78,16 +78,21 @@ async fn setup_dbs(config: &Config) -> Result<(), String> {
     Ok(())
 }
 
-async fn create_fallback_user(config: &Config) -> Result<(), String> {
-    let fallback_path_buf = match env::args().nth(1) {
+async fn create_fallback_account(config: &Config) -> Result<(), String> {
+    println!("create_fallback_account()");
+    let fallback_path_buf = match env::args().nth(3) {
         Some(fbjs) => PathBuf::from(fbjs),
-        _ => return Err("arg[1] fallback path not included.".to_string()),
+        _ => return Err("arg[3] fallback path not included.".to_string()),
     };
 
     let fallback_user = match FallbackUser::from_filepath(&fallback_path_buf).await {
         Ok(fu) => fu,
         Err(e) => return Err(e),
     };
+
+    println!("{:?}", fallback_user);
+    // create user and password
+    // add roles
 
     Ok(())
 }

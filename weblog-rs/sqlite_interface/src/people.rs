@@ -1,6 +1,10 @@
 use rusqlite::{Connection, Result};
 use std::path::PathBuf;
 
+use argon2::password_hash::rand_core::OsRng;
+use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
+use argon2::Argon2;
+
 pub struct Person {}
 
 pub struct People {}
@@ -9,6 +13,24 @@ impl People {
     pub fn new() -> People {
         People {}
     }
+
+    fn create(name: String, password: String) -> Result<(), String> {
+        // sdf
+        let salt = SaltString::generate(&mut OsRng);
+
+        // Argon2 with default params (Argon2id v19)
+        let argon2 = Argon2::default();
+
+        // Hash password to PHC string ($argon2id$v=19$...)
+        let password_hash = match argon2.hash_password(password.as_bytes(), &salt) {
+            Ok(ph) => ph.to_string(),
+            Err(e) => return Err("person, create error:\n".to_string() + &e.to_string()),
+        };
+
+        println!("{:?}", password_hash);
+        Ok(())
+    }
+
     // create
     // read
     // read by email
