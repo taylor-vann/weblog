@@ -2,36 +2,63 @@ pub mod ip_rate_limits;
 pub mod people;
 pub mod roles;
 pub mod roles_to_people;
-pub mod session_rate_limits;
 pub mod sessions;
 
 use crate::ip_rate_limits::IpRateLimits;
 use crate::people::People;
 use crate::roles::Roles;
 use crate::roles_to_people::RolesToPeople;
-use crate::session_rate_limits::SessionRateLimits;
 use crate::sessions::Sessions;
 
+use config::Config;
+use flyweight::JANUARY_1ST_2025_AS_DURATION;
+use snowprints::{Settings as SnowprintSettings, Snowprint};
+
+use std::path::PathBuf;
+use std::time::Duration;
+use std::time::UNIX_EPOCH;
+
+// An intentionally limited, structured, and journey driven API
 pub struct AuthDb {
-    people: People,
-    roles: Roles,
-    roles_to_people: RolesToPeople,
-    ip_rate_limits: IpRateLimits,
-    sessions: Sessions,
-    session_rate_limits: SessionRateLimits,
+    db_path: PathBuf,
+    snowprints: Snowprint,
 }
 
 impl AuthDb {
-    pub fn new() -> AuthDb {
-        AuthDb {
-            people: People::new(),
-            roles: Roles::new(),
-            roles_to_people: RolesToPeople::new(),
-            ip_rate_limits: IpRateLimits::new(),
-            sessions: Sessions::new(),
-            session_rate_limits: SessionRateLimits::new(),
-        }
+    pub fn from(db_path: &PathBuf, origin_time_ms: u64) -> Result<AuthDb, String> {
+        let origin_time_as_duration: Duration = Duration::from_millis(origin_time_ms);
+
+        let snowprint_settings = SnowprintSettings {
+            origin_system_time: UNIX_EPOCH + origin_time_as_duration,
+            logical_volume_base: 0,
+            logical_volume_length: 8192,
+        };
+
+        let snowprints = match Snowprint::new(snowprint_settings) {
+            Ok(sp) => sp,
+            Err(e) => return Err("failed to create snowprints".to_string()),
+        };
+
+        Ok(AuthDb {
+            db_path: db_path.clone(),
+            snowprints: snowprints,
+        })
     }
+
+    // session_exists()
+
+    // create_guest_session()
+    //   -> rate limit ip to guest session
+    //   -> if okay return guest session
+
+    // rate_limit_session() / session exists
+    //   -> yes no
+
+    // create_person_session_by_email()
+    //   -> rate limit person session create because password are expensive
+    //   ->
+
+    // uwer has roles
 }
 
 pub struct DomainDb {}
@@ -42,16 +69,40 @@ impl DomainDb {
     }
 }
 
-// create person
-// create roles for person
+// AUTH JOURNEYS
 
-// rate limit ip (rate limit guest session creation)
+// (context incoming request)
+// no session?
+//   create_guest_session(ip)
+//      -> ratelimit ip
+//      -> return guest session (base64 string)
+//
 
-// create guest session
-// create user session
+// (context incoming request)
+// ratelimit_session
+//   -> ratelimit session
+//   -> if no session or session is invalid return error
+//   -> return Result<Option<u64>, String>
+//        -> If none, valid guest session
+//   ->
 
-// rate limit session
+// now can ratelimit sessions from spamming resources
 
-// is guest session?
-// get user_id from sesion
-// user has role by title
+// ZONE OF GUEST ACCESS
+//   can see login pages
+//   can see public resources
+//
+
+// BUT I WANT TO LOGIN
+// (context i want to use blog building tools in my blog)
+// (context incoming request)
+// create_people_session_by_email(session, email, password)
+//   -> guest session exists?
+//   -> return (session string, people_id u64)
+
+// (context incoming request and needs to validate reading from protected resource)
+//   session_has_role(session bas64 string, role)
+//   -> session exists?
+//   -> ratelimit session
+//   -> return people_id Option<u64>
+//

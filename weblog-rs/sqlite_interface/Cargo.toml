@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 argon2 = { workspace = true}
 config = { path = "../config" }
+flyweight = { path = "../flyweight" }
 tokio = { workspace = true }
 rusqlite = { workspace = true }
 snowprints = { workspace = true }

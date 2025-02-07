@@ -1,6 +1,13 @@
 use rusqlite::{Connection, Result};
 use std::path::PathBuf;
 
+enum SessionKind {
+    None,
+    Expired,
+    Guest,
+    Patron(u64),
+}
+
 pub struct Session {}
 
 pub struct Sessions {}
@@ -24,9 +31,12 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
 
     let results = conn.execute(
         "CREATE TABLE IF NOT EXISTS sessions (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY UNIQUE,
             session INTEGER NOT NULL,
             session_length_ms INTEGER NOT NULL,
+            bucket_head INTEGER NOT NULL,
+            bucket_tail INTEGER NOT NULL,
+            people_id INTEGER KEY, 
             belongs_to INTEGER,
             deleted_at INTEGER
         )",

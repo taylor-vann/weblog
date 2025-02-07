@@ -26,7 +26,7 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
         "CREATE TABLE IF NOT EXISTS roles (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL UNIQUE,
-            belongs_to INTEGER NOT NULL,
+            created_by INTEGER NOT NULL,
             deleted_at INTEGER
         )",
         (), // empty list of parameters.

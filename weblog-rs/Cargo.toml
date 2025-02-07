@@ -1,9 +1,9 @@
 [workspace]
 resolver = "2"
-members = [ "config", "sqlite_interface", "sqlite_maintenance" ]
+members = [ "config", "flyweight", "sqlite_interface", "sqlite_maintenance" ]
 
 [workspace.dependencies]
-argon2 = { version = "0.5", features = ["default", "rand", "std"] }
+argon2 = { version = "0.5", features = ["std"] }
 base64 = { version = "0.21" }
 coyote = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
 coyote_html = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }

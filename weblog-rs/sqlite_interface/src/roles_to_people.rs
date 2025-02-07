@@ -27,7 +27,7 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
             id INTEGER PRIMARY KEY,
             role_id TEXT NOT NULL,
             people_id INTEGER NOT NULL,
-            belongs_to INTEGER NOT NULL,
+            created_by INTEGER NOT NULL,
             deleted_at INTEGER
         )",
         (), // empty list of parameters.
