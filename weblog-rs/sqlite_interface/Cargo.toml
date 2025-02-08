@@ -13,3 +13,4 @@ tokio = { workspace = true }
 rusqlite = { workspace = true }
 snowprints = { workspace = true }
 password-hash = "0.5.0"
+rand = { workspace = true }

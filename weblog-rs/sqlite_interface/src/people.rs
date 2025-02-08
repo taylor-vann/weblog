@@ -9,20 +9,6 @@ use argon2::Argon2;
 
 pub struct Person {}
 
-pub struct People {}
-
-impl People {
-    pub fn new() -> People {
-        People {}
-    }
-
-    // create
-    // read
-    // read by email
-    // update (email, password)
-    // delete
-}
-
 // keep table creation out of regular api?
 pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
@@ -31,14 +17,15 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "CREATE TABLE IF NOT EXISTS people (
+        "
+        CREATE TABLE IF NOT EXISTS people (
 			id INTEGER PRIMARY KEY,
 			email TEXT NOT NULL UNIQUE,
 			password_hash_params TEXT NOT NULL,
-			updated_at INTEGER,
 			deleted_at INTEGER
-		)",
-        (), // empty list of parameters.
+		)
+        ",
+        (),
     );
 
     if let Err(e) = results {
@@ -48,68 +35,94 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     Ok(())
 }
 
-pub fn create(email: &str, screen_name: &str, password: &str) -> Result<(), String> {
-    // sdf
-    let salt = SaltString::generate(&mut OsRng);
-
-    // Argon2 with default params (Argon2id v19)
-    let argon2 = Argon2::default();
-    println!("{:?}", &argon2);
-
-    // Hash password to PHC string ($argon2id$v=19$...)
-    let password_hash = match argon2.hash_password(password.as_bytes(), &salt) {
-        Ok(ph) => ph.to_string(),
-        Err(e) => return Err("person, create error:\n".to_string() + &e.to_string()),
+pub fn create(
+    path: &PathBuf,
+    people_id: u64,
+    email: &str,
+    password_hash_params: &str,
+) -> Result<(), String> {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return Err("falled to connect to sqlite db (people)".to_string()),
     };
 
-    println!("{:?}", &password_hash);
-    println!("{}", &password_hash.to_string());
+    let results = conn.execute(
+        "
+        INSERT OR IGNORE INTO people
+            (id, email, password_hash_params)
+        VALUES
+            (?1, ?2, ?3)
+        ",
+        (people_id, email, password_hash_params),
+    );
 
-    let parsed_hash = match PasswordHash::new(&password_hash) {
-        Ok(ph) => ph,
-        Err(e) => return Err(e.to_string()),
-    };
-
-    let bad_password = "123klmnjk";
-    if let Ok(()) = Argon2::default().verify_password(password.as_bytes(), &parsed_hash) {
-        println!("password is ok!");
+    if let Err(e) = results {
+        return Err("people: \n".to_string() + &e.to_string());
     }
+
     Ok(())
 }
 
-// "CREATE TABLE IF NOT EXISTS people (
-// 	id INTEGER PRIMARY KEY,
-// 	email TEXT NOT NULL UNIQUE,
-// 	password_hash_params TEXT NOT NULL,
-// 	updated_at INTEGER,
-// 	deleted_at INTEGER
-// );"
+pub fn read(path: &PathBuf, people_id: u64) -> Result<(), String> {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return Err("falled to connect to sqlite db (people)".to_string()),
+    };
 
-// // CREATE
-// "INSERT INTO people
-// 	(id, email, password_hash_params)
-// VALUES
-// 	(?1, ?2, ?3);
-// "
+    let results = conn.execute(
+        "
+        SELECT people
+        WHERE id = ?1
+        ",
+        [people_id],
+    );
 
-// // READ by id
-// "
-// SELECT * FROM people
-// WHERE id = ?1;
-// "
+    if let Err(e) = results {
+        return Err("read people: \n".to_string() + &e.to_string());
+    }
 
-// // READ by email
-// "
-// SELECT * FROM people
-// WHERE email = ?1;
-// "
+    Ok(())
+}
 
-// // INDEPENDENT UPDATES
-// //   intention is to avoid accidentally changing key user info
-// //
-// // update email
-// // update screen_name
-// // update password_hash_parmas
-// //
+pub fn delete(path: &PathBuf, people_id: u64, timestamp_ms: u64) -> Result<(), String> {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return Err("falled to connect to sqlite db (people)".to_string()),
+    };
 
-// // DELETE
+    let results = conn.execute(
+        "
+        UPDATE people
+        SET deleted_at = ?1
+        WHERE id = ?2
+        ",
+        (timestamp_ms, people_id),
+    );
+
+    if let Err(e) = results {
+        return Err("delete people: \n".to_string() + &e.to_string());
+    }
+
+    Ok(())
+}
+
+pub fn dangerously_delete(path: &PathBuf, people_id: u64, timestamp_ms: u64) -> Result<(), String> {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return Err("falled to connect to sqlite db (people)".to_string()),
+    };
+
+    let results = conn.execute(
+        "
+        DELETE people
+        WHERE id = ?1
+        ",
+        [people_id],
+    );
+
+    if let Err(e) = results {
+        return Err("dangerously delete people: \n".to_string() + &e.to_string());
+    }
+
+    Ok(())
+}

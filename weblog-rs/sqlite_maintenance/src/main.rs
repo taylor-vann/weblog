@@ -86,13 +86,13 @@ async fn create_fallback_account(config: &Config) -> Result<(), String> {
 
     println!("{:?}", fallback_account);
 
-    let hashed = people::create(
-        &fallback_account.email,
-        &fallback_account.screen_name,
-        &fallback_account.password,
-    );
+    // let hashed = people::create(
+    //     &fallback_account.email,
+    //     &fallback_account.screen_name,
+    //     &fallback_account.password,
+    // );
 
-    println!("{:?}", hashed);
+    // println!("{:?}", hashed);
 
     // create user and password
     // add roles

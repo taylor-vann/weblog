@@ -4,12 +4,6 @@ pub mod roles;
 pub mod roles_to_people;
 pub mod sessions;
 
-use crate::ip_rate_limits::IpRateLimits;
-use crate::people::People;
-use crate::roles::Roles;
-use crate::roles_to_people::RolesToPeople;
-use crate::sessions::Sessions;
-
 use config::Config;
 use flyweight::JANUARY_1ST_2025_AS_DURATION;
 use snowprints::{Settings as SnowprintSettings, Snowprint};
@@ -60,6 +54,25 @@ impl AuthDb {
 
     // uwer has roles
 }
+
+// let salt = SaltString::generate(&mut OsRng);
+// let argon2 = Argon2::default();
+
+// // Hash password to PHC string ($argon2id$v=19$...)
+// let password_hash_params = match argon2.hash_password(password.as_bytes(), &salt) {
+//     Ok(ph) => ph.to_string(),
+//     Err(e) => return Err("person, create error:\n".to_string() + &e.to_string()),
+// };
+
+// let parsed_hash = match PasswordHash::new(&password_hash_params) {
+//     Ok(ph) => ph,
+//     Err(e) => return Err(e.to_string()),
+// };
+
+// let bad_password = "123klmnjk";
+// if let Ok(()) = Argon2::default().verify_password(password.as_bytes(), &parsed_hash) {
+//     println!("password is ok!");
+// }
 
 pub struct DomainDb {}
 
