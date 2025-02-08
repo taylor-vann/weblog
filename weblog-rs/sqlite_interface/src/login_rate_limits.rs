@@ -3,19 +3,6 @@ use std::path::PathBuf;
 
 pub struct IpRateLimit {}
 
-pub struct IpRateLimits {}
-
-impl IpRateLimits {
-    pub fn new() -> IpRateLimits {
-        IpRateLimits {}
-    }
-    // create
-    // read
-    // read by email
-    // update (email, password)
-    // delete
-}
-
 pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
