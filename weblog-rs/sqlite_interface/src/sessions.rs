@@ -12,17 +12,13 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "
-        CREATE TABLE IF NOT EXISTS sessions (
+        "CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER PRIMARY KEY UNIQUE,
             people_id INTEGER KEY,
             session INTEGER NOT NULL,
             session_length_ms INTEGER NOT NULL,
-            bucket_head INTEGER NOT NULL,
-            bucket_tail INTEGER NOT NULL,
-            deleted_at INTEGERdd
-        )
-        ",
+            deleted_at INTEGER
+        )",
         (), // empty list of parameters.
     );
 
@@ -48,12 +44,10 @@ pub fn create(
     let session: u64 = rng.gen();
 
     let results = conn.execute(
-        "
-        INSERT INTO sessions
+        "INSERT INTO sessions
         	(id, people_id, session, session_length_ms)
         VALUES
-        	(?1, ?2, ?3, ?4);
-        ",
+        	(?1, ?2, ?3, ?4)",
         (session_id, people_id, session, session_length_ms), // empty list of parameters.
     );
 
@@ -71,10 +65,8 @@ pub fn read(path: &PathBuf, session_id: u64) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "
-        SELECT sessions
-        WHERE id = ?1
-        ",
+        "SELECT sessions
+        WHERE id = ?1",
         [session_id], // empty list of parameters.
     );
 
@@ -94,11 +86,9 @@ pub fn delete(path: &PathBuf, session_id: u64, timestamp_ms: u64) -> Result<(), 
     };
 
     let results = conn.execute(
-        "
-        UPDATE sessions
+        "UPDATE sessions
         SET deleted_at = ?1
-        WHERE id = ?2
-        ",
+        WHERE id = ?2",
         (timestamp_ms, session_id), // empty list of parameters.
     );
 
@@ -116,10 +106,8 @@ pub fn dangerously_delete(path: &PathBuf, people_id: u64, timestamp_ms: u64) -> 
     };
 
     let results = conn.execute(
-        "
-        DELETE sessions
-        WHERE id = ?1
-        ",
+        "DELETE sessions
+        WHERE id = ?1",
         [people_id], // empty list of parameters.
     );
 

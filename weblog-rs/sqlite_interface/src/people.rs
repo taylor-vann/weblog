@@ -5,8 +5,6 @@ use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
 use argon2::Argon2;
 
-// snowflake
-
 pub struct Person {}
 
 // keep table creation out of regular api?
@@ -17,14 +15,11 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "
-        CREATE TABLE IF NOT EXISTS people (
+        "CREATE TABLE IF NOT EXISTS people (
 			id INTEGER PRIMARY KEY,
-			email TEXT NOT NULL UNIQUE,
 			password_hash_params TEXT NOT NULL,
 			deleted_at INTEGER
-		)
-        ",
+		)",
         (),
     );
 
@@ -35,25 +30,18 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     Ok(())
 }
 
-pub fn create(
-    path: &PathBuf,
-    people_id: u64,
-    email: &str,
-    password_hash_params: &str,
-) -> Result<(), String> {
+pub fn create(path: &PathBuf, people_id: u64, password_hash_params: &str) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
         Err(e) => return Err("falled to connect to sqlite db (people)".to_string()),
     };
 
     let results = conn.execute(
-        "
-        INSERT OR IGNORE INTO people
-            (id, email, password_hash_params)
+        "INSERT OR IGNORE INTO people
+            (id, password_hash_params)
         VALUES
-            (?1, ?2, ?3)
-        ",
-        (people_id, email, password_hash_params),
+            (?1, ?2)",
+        (people_id, password_hash_params),
     );
 
     if let Err(e) = results {
@@ -70,10 +58,8 @@ pub fn read(path: &PathBuf, people_id: u64) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "
-        SELECT people
-        WHERE id = ?1
-        ",
+        "SELECT people
+        WHERE id = ?1",
         [people_id],
     );
 
@@ -91,11 +77,9 @@ pub fn delete(path: &PathBuf, people_id: u64, timestamp_ms: u64) -> Result<(), S
     };
 
     let results = conn.execute(
-        "
-        UPDATE people
+        "UPDATE people
         SET deleted_at = ?1
-        WHERE id = ?2
-        ",
+        WHERE id = ?2",
         (timestamp_ms, people_id),
     );
 
@@ -113,10 +97,8 @@ pub fn dangerously_delete(path: &PathBuf, people_id: u64, timestamp_ms: u64) -> 
     };
 
     let results = conn.execute(
-        "
-        DELETE people
-        WHERE id = ?1
-        ",
+        "DELETE people
+        WHERE id = ?1",
         [people_id],
     );
 

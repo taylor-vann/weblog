@@ -1,4 +1,3 @@
-pub mod ip_rate_limits;
 pub mod people;
 pub mod roles;
 pub mod roles_to_people;

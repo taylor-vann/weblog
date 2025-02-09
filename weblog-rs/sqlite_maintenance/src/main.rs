@@ -14,7 +14,15 @@ use std::path::PathBuf;
 
 use config::{Config, FallbackUser};
 use rusqlite::{Connection, Result};
-use sqlite_interface::{ip_rate_limits, people, roles, roles_to_people, sessions};
+use sqlite_interface::{people, roles, roles_to_people, sessions};
+
+// create roles
+//	"roles": [
+//     "administrator",
+//     "editor",
+//     "roles"
+// ]
+//
 
 #[tokio::main]
 async fn main() -> Result<(), String> {
@@ -65,15 +73,19 @@ async fn setup_dbs(config: &Config) -> Result<(), String> {
         return Err(e.to_string());
     };
 
-    if let Err(e) = ip_rate_limits::create_table(&config.sqlite_db_auth) {
-        return Err(e.to_string());
-    };
+    // create roles
 
     Ok(())
 }
 
 async fn create_fallback_account(config: &Config) -> Result<(), String> {
     println!("create_fallback_account()");
+
+    // create people_id
+    //  create email
+    //  create people entry
+    //
+
     let fallback_path_buf = match env::args().nth(3) {
         Some(fbjs) => PathBuf::from(fbjs),
         _ => return Err("arg[3] fallback path not included.".to_string()),

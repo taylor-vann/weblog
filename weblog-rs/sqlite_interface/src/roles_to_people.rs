@@ -39,12 +39,10 @@ pub fn create(
     };
 
     let results = conn.execute(
-        "
-        INSERT INTO roles_to_people
+        "INSERT INTO roles_to_people
             (id, role_id, people_id)
         VALUES
-            (?1, ?2, ?3)
-        ",
+            (?1, ?2, ?3)",
         (roles_to_people_id, role_id, people_id),
     );
 
@@ -55,18 +53,20 @@ pub fn create(
     Ok(())
 }
 
-pub fn read(path: &PathBuf, roles_to_people_id: u64) -> Result<(), String> {
+pub fn read(path: &PathBuf, people_id: u64, role_id: u64) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
         Err(e) => return Err("falled to connect to sqlite db (roles_to_people)".to_string()),
     };
 
     let results = conn.execute(
-        "
-        SELECT roles_to_people
-        WHERE id = ?1
+        "SELECT roles_to_people
+        WHERE
+            people_id = ?1
+            AND
+            role_id = ?2
         ",
-        [roles_to_people_id],
+        (people_id, role_id),
     );
 
     // iterate through roles_to_people
@@ -85,11 +85,9 @@ pub fn delete(path: &PathBuf, roles_to_people_id: u64, timestamp_ms: u64) -> Res
     };
 
     let results = conn.execute(
-        "
-        UPDATE roles_to_people
+        "UPDATE roles_to_people
         SET deleted_at = ?1
-        WHERE id = ?2
-        ",
+        WHERE id = ?2",
         (timestamp_ms, roles_to_people_id),
     );
 
@@ -111,10 +109,8 @@ pub fn dangerously_delete(
     };
 
     let results = conn.execute(
-        "
-        DELETE roles_to_people
-        WHERE id = ?1
-        ",
+        "DELETE roles_to_people
+        WHERE id = ?1",
         [roles_to_people_id],
     );
 
@@ -124,17 +120,3 @@ pub fn dangerously_delete(
 
     Ok(())
 }
-
-// // CREATE
-// "
-// INSERT INTO roles_to_people
-// 	(id, kind)
-// VALUES
-// 	(?1, ?2);
-// "
-
-// // READ by people_id AND role_id
-// "
-// SELECT * FROM roles_to_people
-// WHERE people_id = ?1 AND role_id = ?2;
-// "

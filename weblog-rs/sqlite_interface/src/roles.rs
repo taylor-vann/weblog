@@ -1,7 +1,11 @@
 use rusqlite::{Connection, Result};
 use std::path::PathBuf;
 
-pub struct Role {}
+pub struct Role {
+    id: u64,
+    kind: String,
+    deleted_at: u64,
+}
 
 pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let conn = match Connection::open(path) {
@@ -12,8 +16,7 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let results = conn.execute(
         "CREATE TABLE IF NOT EXISTS roles (
             id INTEGER PRIMARY KEY,
-            title TEXT NOT NULL UNIQUE,
-            created_by INTEGER,
+            kind TEXT NOT NULL UNIQUE,
             deleted_at INTEGER
         )",
         (), // empty list of parameters.
@@ -26,20 +29,18 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     Ok(())
 }
 
-pub fn create(path: &PathBuf, role_id: u64, title: &str) -> Result<(), String> {
+pub fn create(path: &PathBuf, role_id: u64, kind: &str) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
         Err(e) => return Err("falled to connect to sqlite db (roles)".to_string()),
     };
 
     let results = conn.execute(
-        "
-        INSERT OR IGNORE INTO roles
-            (id, title)
+        "INSERT OR IGNORE INTO roles
+            (id, kind)
         VALUES
-            (?1, ?2)
-        ",
-        (role_id, title),
+            (?1, ?2)",
+        (role_id, kind),
     );
 
     if let Err(e) = results {
@@ -56,10 +57,8 @@ pub fn read(path: &PathBuf, role_id: u64) -> Result<(), String> {
     };
 
     let results = conn.execute(
-        "
-        SELECT roles
-        WHERE id = ?1
-        ",
+        "SELECT roles
+        WHERE id = ?1",
         [role_id],
     );
 
@@ -72,6 +71,27 @@ pub fn read(path: &PathBuf, role_id: u64) -> Result<(), String> {
     Ok(())
 }
 
+pub fn read_id_by_kind(path: &PathBuf, kind: u64) -> Result<(), String> {
+    let conn = match Connection::open(path) {
+        Ok(cn) => cn,
+        Err(e) => return Err("falled to connect to sqlite db (roles)".to_string()),
+    };
+
+    let results = conn.execute(
+        "SELECT roles
+        WHERE kind = ?1",
+        [kind],
+    );
+
+    // iterate through roles
+
+    if let Err(e) = results {
+        return Err("read roles by kind: \n".to_string() + &e.to_string());
+    }
+
+    Ok(())
+}
+
 pub fn delete(path: &PathBuf, role_id: u64, timestamp_ms: u64) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
@@ -79,11 +99,9 @@ pub fn delete(path: &PathBuf, role_id: u64, timestamp_ms: u64) -> Result<(), Str
     };
 
     let results = conn.execute(
-        "
-        UPDATE roles
+        "UPDATE roles
         SET deleted_at = ?1
-        WHERE id = ?2
-        ",
+        WHERE id = ?2",
         (timestamp_ms, role_id),
     );
 
@@ -101,10 +119,8 @@ pub fn dangerously_delete(path: &PathBuf, role_id: u64, timestamp_ms: u64) -> Re
     };
 
     let results = conn.execute(
-        "
-        DELETE roles
-        WHERE id = ?1
-        ",
+        "DELETE roles
+        WHERE id = ?1",
         [role_id],
     );
 
