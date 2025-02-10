@@ -8,6 +8,8 @@ use std::path::PathBuf;
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Config {
+    pub origin_time: u64,
+    pub remove_deleted_at_after_ms: u64,
     pub origin_dir: PathBuf,
     pub sqlite_db_auth: PathBuf,
     pub pages: Vec<(String, PathBuf)>,
@@ -34,6 +36,8 @@ impl Config {
             }
         };
 
+        println!("{:?}", config_pathbuf);
+
         // build json conifg
         let json_as_str = match fs::read_to_string(&config_pathbuf).await {
             Ok(r) => r,
@@ -59,9 +63,7 @@ impl Config {
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct FallbackUser {
     pub email: String,
-    pub screen_name: String,
     pub password: String,
-    pub roles: Vec<String>,
 }
 
 impl FallbackUser {
@@ -92,11 +94,6 @@ impl FallbackUser {
         let mut fallback_user: FallbackUser = match serde_json::from_str(&json_as_str) {
             Ok(j) => j,
             Err(_e) => return Err("failed to parse fallback from json string".to_string()),
-        };
-
-        let parent_dir = match fallback_pathbuf.parent() {
-            Some(directory) => directory,
-            _ => return Err("no parent directory!, crazy!".to_string()),
         };
 
         Ok(fallback_user)

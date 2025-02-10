@@ -10,3 +10,5 @@ config = { path = "../config" }
 tokio = { workspace = true }
 rusqlite = { workspace = true }
 sqlite_interface = { path = "../sqlite_interface" }
+snowprints = { workspace = true }
+flyweight = { path = "../flyweight" }

@@ -31,7 +31,7 @@ pub fn create(
     path: &PathBuf,
     roles_to_people_id: u64,
     role_id: u64,
-    people_id: &str,
+    people_id: u64,
 ) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,

@@ -1,10 +1,6 @@
 use rusqlite::{Connection, Result};
 use std::path::PathBuf;
 
-use argon2::password_hash::rand_core::OsRng;
-use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
-use argon2::Argon2;
-
 pub struct Person {}
 
 // keep table creation out of regular api?

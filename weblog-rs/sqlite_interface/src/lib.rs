@@ -1,17 +1,21 @@
+pub mod emails;
 pub mod people;
 pub mod roles;
 pub mod roles_to_people;
 pub mod sessions;
 
+use argon2::password_hash::rand_core::OsRng;
+use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
+use argon2::Argon2;
 use config::Config;
 use flyweight::JANUARY_1ST_2025_AS_DURATION;
 use snowprints::{Settings as SnowprintSettings, Snowprint};
-
 use std::path::PathBuf;
 use std::time::Duration;
 use std::time::UNIX_EPOCH;
 
 // An intentionally limited, structured, and journey driven API
+
 pub struct AuthDb {
     db_path: PathBuf,
     snowprints: Snowprint,
@@ -19,15 +23,7 @@ pub struct AuthDb {
 
 impl AuthDb {
     pub fn from(db_path: &PathBuf, origin_time_ms: u64) -> Result<AuthDb, String> {
-        let origin_time_as_duration: Duration = Duration::from_millis(origin_time_ms);
-
-        let snowprint_settings = SnowprintSettings {
-            origin_system_time: UNIX_EPOCH + origin_time_as_duration,
-            logical_volume_base: 0,
-            logical_volume_length: 8192,
-        };
-
-        let snowprints = match Snowprint::new(snowprint_settings) {
+        let snowprints = match create_snowprints(origin_time_ms, None) {
             Ok(sp) => sp,
             Err(e) => return Err("failed to create snowprints".to_string()),
         };
@@ -78,6 +74,54 @@ pub struct DomainDb {}
 impl DomainDb {
     pub fn new() -> DomainDb {
         DomainDb {}
+    }
+}
+
+// UTILITY functions
+
+pub fn create_snowprints(
+    origin_system_time: u64,
+    volume_params: Option<(u64, u64)>,
+) -> Result<Snowprint, String> {
+    let origin_time_duration = Duration::from_millis(origin_system_time);
+
+    let (logical_volume_base, logical_volume_length) = match volume_params {
+        Some(vp) => vp,
+        _ => (0, 8192),
+    };
+
+    let snowprint_settings = SnowprintSettings {
+        origin_system_time: UNIX_EPOCH + JANUARY_1ST_2025_AS_DURATION,
+        logical_volume_base: logical_volume_base,
+        logical_volume_length: logical_volume_length,
+    };
+
+    match Snowprint::new(snowprint_settings) {
+        Ok(sp) => Ok(sp),
+        Err(e) => return Err("failed to create snowprints".to_string()),
+    }
+}
+
+pub fn hash_password(password: &str) -> Result<String, String> {
+    let salt = SaltString::generate(&mut OsRng);
+    let argon2 = Argon2::default();
+
+    // Hash password to PHC string ($argon2id$v=19$...)
+    match argon2.hash_password(password.as_bytes(), &salt) {
+        Ok(ph) => Ok(ph.to_string()),
+        Err(e) => return Err("person, create error:\n".to_string() + &e.to_string()),
+    }
+}
+
+pub fn validate_password(password: &str, password_hash_params: &str) -> bool {
+    let parsed_hash = match PasswordHash::new(&password_hash_params) {
+        Ok(ph) => ph,
+        Err(e) => return false,
+    };
+
+    match Argon2::default().verify_password(password.as_bytes(), &parsed_hash) {
+        Ok(()) => true,
+        _ => false,
     }
 }
 

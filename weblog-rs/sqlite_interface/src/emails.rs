@@ -12,8 +12,8 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     let results = conn.execute(
         "CREATE TABLE IF NOT EXISTS emails (
             id INTEGER PRIMARY KEY,
-			email TEXT NOT NULL KEY UNIQUE,
-			people_id INTEGER NOT NULL,
+            people_id INTEGER KEY NOT NULL,
+            email TEXT UNIQUE NOT NULL,
             deleted_at INTEGER
         )",
         (), // empty list of parameters.
@@ -26,18 +26,18 @@ pub fn create_table(path: &PathBuf) -> Result<(), String> {
     Ok(())
 }
 
-pub fn create(path: &PathBuf, email_id: u64, email: &str) -> Result<(), String> {
+pub fn create(path: &PathBuf, email_id: u64, people_id: u64, email: &str) -> Result<(), String> {
     let conn = match Connection::open(path) {
         Ok(cn) => cn,
         Err(e) => return Err("falled to connect to sqlite db (emails)".to_string()),
     };
 
     let results = conn.execute(
-        "INSERT OR IGNORE INTO emails
-            (id, email)
+        "INSERT INTO emails
+            (id, people_id, email)
         VALUES
-            (?1, ?2)",
-        (email_id, email),
+            (?1, ?2, ?3)",
+        (email_id, people_id, email),
     );
 
     if let Err(e) = results {
