@@ -22,10 +22,14 @@ Cargo.lock
 
 
 # WEBLOG
-
-fallback_user.json
-
 *.js
 *.d.ts
 
+*.json
+!config.json
+
 node_modules/
+
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

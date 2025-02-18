@@ -1,10 +1,6 @@
 {
-	"sqlite_db_auth": "./weblog_auth.sqlite",
+
 	"sqlite_db": "./weblog.sqlite",
 	"origin_dir": "./www/",
-	"pages": [
-		["home", "index.html"],
-		["cv", "cv.html"],
-		["about", "about.html"]
-	]
+	"origin_time_ms": 1735718400000
 }
