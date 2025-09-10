@@ -1,10 +1,7 @@
-[workspace]
-resolver = "2"
-members = [ "components", "config", "generate_pages","pages"]
 
-[workspace.dependencies]
+
+[dependencies]
 coyote = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
-coyote_html = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
 futures = "0.3"
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7"

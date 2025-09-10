@@ -1,4 +1,9 @@
 {
-    "origin_dir": "www/",
-    "target_dir": "www-test/"
+    "builder": {
+        "output_dir": "www/"
+    },
+    "file_server": {
+        "host_and_port": "0.0.0.0:4000",
+        "directory": "www/"
+    }
 }
