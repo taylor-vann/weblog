@@ -4,24 +4,11 @@ A personal site.
 
 ## Weblog-rs
 
-### Config
+Software to deploy a personal weblog.
 
-JSON build configuration.
+## Weblog-js
 
-```JSON
-{
-	"origin_dir": "directory-with-prebuilt-assets/",
-	"target_dir": "directory-to-output-generated-files/"
-}
-```
-
-### Pages
-
-Function components to build html documents.
-
-### Generate Pages
-
-Compose html documents from pages.
+Build and bundle javascript dependencies.
 
 # License
 

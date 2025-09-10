@@ -1,0 +1,11 @@
+{
+    "name": "weblog-js",
+    "scripts": {
+        "build:dependencies": "echo bundle high-level dependencies",
+        "build:www": "npx tsc --project ../www/tsconfig.json"
+    },
+    "devDependencies": {
+        "rollup": "^4.50.1",
+        "typescript": "^5.9.2"
+    }
+}

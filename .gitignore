@@ -22,5 +22,4 @@ Cargo.lock
 
 
 # WEBLOG
-
-www-test/
+node_modules
