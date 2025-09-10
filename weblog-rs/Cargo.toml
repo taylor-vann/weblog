@@ -1,10 +1,18 @@
+[workspace]
+resolver = "2"
+members = ["pages", "builder", "weblog"]
 
-
-[dependencies]
-coyote = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
-futures = "0.3"
-tokio = { version = "1", features = ["full"] }
-tokio-util = "0.7"
-serde = { version = "1", features = ["derive"] }
+[workspace.dependencies]
+bytes = "1"
+futures-util = { version = "0.3", default-features = false }
+http-body-util = "0.1"
+hyper-util = { version = "0.1", features = ["full"] }
+hyper = { version = "1", features = ["full"] }
 serde_json = "1"
+serde = { version = "1.0", features = ["derive"] }
+tokio-util = "0.7.10"
+tokio = { version = "1", features = ["full"] }
+
+coyote = { git = "https://github.com/wolfpup-software/coyote-rs", version = "0.1" }
+file_server_response = { git = "https://github.com/wolfpup-software/file_server/response", version = "0.1" }
 walk_directory = { git = "https://github.com/wolfpup-software/walk_directory-rs", version = "0.1" }
