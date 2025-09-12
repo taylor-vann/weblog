@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["pages", "builder", "weblog"]
+members = ["config", "pages", "builder", "weblog"]
 
 [workspace.dependencies]
 bytes = "1"
