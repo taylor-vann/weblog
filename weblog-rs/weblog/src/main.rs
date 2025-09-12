@@ -14,6 +14,8 @@ use tokio::net::TcpListener;
 
 use config::Config;
 
+mod service;
+
 #[tokio::main]
 async fn main() -> Result<(), String> {
     let conf = match get_config().await {
@@ -28,26 +30,24 @@ async fn main() -> Result<(), String> {
 
     println!("file_server: {}", conf.file_server.host_and_port);
 
-    // let svc = service::Svc::from(conf);
+    let svc = service::Svc::from(conf);
 
-    // loop {
-    //     let (stream, _remote_address) = match listener.accept().await {
-    //         Ok(strm) => strm,
-    //         Err(e) => return Err(e.to_string()),
-    //     };
+    loop {
+        let (stream, _remote_address) = match listener.accept().await {
+            Ok(strm) => strm,
+            Err(e) => return Err(e.to_string()),
+        };
 
-    //     let io = TokioIo::new(stream);
-    //     let svc = svc.clone();
+        let io = TokioIo::new(stream);
+        let svc = svc.clone();
 
-    //     tokio::task::spawn(async move {
-    //         // log service errors here
-    //         Builder::new(TokioExecutor::new())
-    //             .serve_connection(io, svc)
-    //             .await
-    //     });
-    // }
-
-    Ok(())
+        tokio::task::spawn(async move {
+            // log service errors here
+            Builder::new(TokioExecutor::new())
+                .serve_connection(io, svc)
+                .await
+        });
+    }
 }
 
 async fn get_config() -> Result<Config, String> {

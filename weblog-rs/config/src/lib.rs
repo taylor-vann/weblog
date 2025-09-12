@@ -15,7 +15,7 @@ pub struct BuilderConfig {
 pub struct FileServerConfig {
     pub host_and_port: String,
     pub directory: PathBuf,
-    pub available_encodings: Option<Vec<String>>,
+    pub content_encodings: Option<Vec<String>>,
     pub filepath_404: Option<PathBuf>,
 }
 
