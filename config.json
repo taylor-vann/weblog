@@ -5,5 +5,8 @@
     "file_server": {
         "host_and_port": "0.0.0.0:4000",
         "directory": "www/"
-    }
+    },
+    "pages": [
+        ["home", "index.html"]
+    ]
 }
