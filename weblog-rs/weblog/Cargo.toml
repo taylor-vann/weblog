@@ -4,4 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+config = { path = "../config" }
+file_server_response = { workspace = true }
+hyper-util = { workspace = true}
+hyper = { workspace = true}
+tokio-util = { workspace = true}
 tokio = { workspace = true}

@@ -7,9 +7,22 @@ use std::path;
 use std::path::PathBuf;
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct BuilderConfig {
+    pub output_dir: PathBuf,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct FileServerConfig {
+    pub host_and_port: String,
+    pub directory: PathBuf,
+    pub content_encodings: Option<Vec<String>>,
+    pub filepath_404: Option<PathBuf>,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Config {
-    pub origin_dir: PathBuf,
-    pub target_dir: PathBuf,
+    pub builder: BuilderConfig,
+    pub file_server: FileServerConfig,
 }
 
 pub async fn from_filepath(target_path: &PathBuf) -> Result<Config, String> {
@@ -43,8 +56,8 @@ pub async fn from_filepath(target_path: &PathBuf) -> Result<Config, String> {
         _ => return Err("no parent directory!, crazy!".to_string()),
     };
 
-    config.origin_dir = parent_dir.join(config.origin_dir);
-    config.target_dir = parent_dir.join(config.target_dir);
+    config.builder.output_dir = parent_dir.join(config.builder.output_dir);
+    config.file_server.directory = parent_dir.join(config.file_server.directory);
 
     Ok(config)
 }
