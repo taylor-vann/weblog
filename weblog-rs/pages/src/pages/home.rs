@@ -1,18 +1,18 @@
-use coyote::{tmpl, Component};
+use coyote::{attr_val, tmpl, Component};
 
-use components::document::{document, metas};
+use crate::components::document::{document, DocumentParams};
 
 const TITLE: &str = "taylorvann - home";
 const DESCRIPTION: &str = "Software engineer, hobbyist, blogger.";
 
 pub fn page() -> Component {
-    document_frame(
-        lang_en(),
-        metas(TITLE, DESCRIPTION),
-        Component::None, // styles
-        Component::None, // scripts
-        body(),
-    )
+    document(DocumentParams {
+        language: lang_en(),
+        metas: metas(TITLE, DESCRIPTION),
+        styles: Component::None,  // styles
+        scripts: Component::None, // scripts
+        body: body(),
+    })
 }
 
 pub fn lang_en() -> Component {
