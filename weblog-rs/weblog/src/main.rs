@@ -23,12 +23,12 @@ async fn main() -> Result<(), String> {
         Err(e) => return Err(e),
     };
 
-    let listener = match TcpListener::bind(&conf.file_server.host_and_port).await {
+    let listener = match TcpListener::bind(&conf.host_and_port).await {
         Ok(lstnr) => lstnr,
         Err(e) => return Err(e.to_string()),
     };
 
-    println!("file_server: {}", conf.file_server.host_and_port);
+    println!("file_server: {}", conf.host_and_port);
 
     let svc = service::Svc::from(conf);
 

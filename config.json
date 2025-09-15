@@ -1,11 +1,6 @@
 {
-    "builder": {
-        "output_dir": "www/"
-    },
-    "file_server": {
-        "host_and_port": "0.0.0.0:4000",
-        "directory": "www/"
-    },
+    "directory": "www/",
+    "host_and_port": "0.0.0.0:4000",
     "pages": [
         ["home", "index.html"]
     ]

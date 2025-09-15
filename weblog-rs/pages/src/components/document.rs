@@ -1,4 +1,4 @@
-use coyote::{attr_val, tmpl, Component};
+use coyote::{tmpl, Component};
 
 pub struct DocumentParams {
     pub language: Component,
