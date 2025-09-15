@@ -4,4 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+config = { path = "../config" }
+pages = { path = "../pages" }
+coyote = { workspace = true }
 tokio = { workspace = true }
+walk_directory = { workspace = true }

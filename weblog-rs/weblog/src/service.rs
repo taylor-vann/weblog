@@ -21,9 +21,9 @@ impl Svc {
     pub fn from(config: Config) -> Svc {
         Svc {
             response_params: ResponseParams::from(
-                config.file_server.directory,
-                config.file_server.filepath_404,
-                config.file_server.content_encodings,
+                config.directory,
+                config.filepath_404,
+                config.content_encodings,
             ),
         }
     }
