@@ -1,6 +1,8 @@
 {
     "directory": "www/",
+    "bucket": "bucket/",
     "host_and_port": "0.0.0.0:4000",
+    "sqlite_db": "./blog.db",
     "pages": [
         ["home", "index.html"]
     ]
