@@ -1,15 +1,10 @@
+use config::Config;
 use hyper::body::Incoming as IncomingBody;
 use hyper::service::Service;
 use hyper::Request;
 use std::future::Future;
 use std::pin::Pin;
 
-use config::Config;
-/*
-    BoxedResponse is a type.
-    It should work with hyper responses across
-    different libraries and dependencies.
-*/
 use file_server_response::{build_response, BoxedResponse, ResponseParams};
 
 #[derive(Clone, Debug)]
@@ -35,9 +30,9 @@ impl Service<Request<IncomingBody>> for Svc {
     type Future = Pin<Box<dyn Future<Output = Result<Self::Response, Self::Error>> + Send>>;
 
     fn call(&self, req: Request<IncomingBody>) -> Self::Future {
-        // if req.path() starts with any prebuilt page.
-        let response_params = self.response_params.clone();
+        // if starts with /api/bucket/
 
+        let response_params = self.response_params.clone();
         Box::pin(async move { build_response(req, response_params).await })
     }
 }

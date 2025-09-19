@@ -5,12 +5,10 @@ use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
 
 use config;
-use pages;
+use pages::documents;
 
 pub async fn generate_pages(config: &config::Config) -> Result<(), String> {
     let mut html = Html::new();
-
-    println!("about to generate pages");
 
     for (name, page_path) in &config.pages {
         let page_component = match create_page(name) {
@@ -33,7 +31,7 @@ pub async fn generate_pages(config: &config::Config) -> Result<(), String> {
 
 fn create_page(name: &str) -> Option<Component> {
     let page = match name {
-        "home" => pages::pages::home::page(),
+        "home" => documents::home::page(),
         _ => return None,
     };
 
@@ -65,38 +63,3 @@ async fn write_page(
         Err(e) => Err(e.to_string()),
     }
 }
-
-// async fn copy_dir(config: &config::Config) -> Result<(), std::io::Error> {
-//     if let Ok(mut dir_copy) = DirCopy::try_from_path(&config.origin_dir, &config.target_dir).await {
-//         while let Some((source_path, target_path)) = dir_copy.next_entry().await {
-//             if source_path.is_file() {
-//                 if let Err(e) = fs::copy(&source_path, &target_path).await {
-//                     return Err(e);
-//                 };
-//             }
-
-//             if source_path.is_dir() {
-//                 if let Err(e) = fs::create_dir_all(&target_path).await {
-//                     return Err(e);
-//                 }
-//             }
-//         }
-//     };
-
-//     Ok(())
-// }
-
-// async fn create_target_dir(config: &config::Config) -> Result<(), String> {
-//     let target_dir_exists = match config.target_dir.try_exists() {
-//         Ok(yn) => yn,
-//         _ => return Err("failed to determine if config.target_dir exists.".to_string()),
-//     };
-
-//     if !target_dir_exists {
-//         if let Err(_e) = fs::create_dir_all(&config.target_dir).await {
-//             return Err("failed to create config.target_dir".to_string());
-//         };
-//     }
-
-//     Ok(())
-// }
